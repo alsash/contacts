@@ -1,5 +1,6 @@
 package com.alsash.contacts.app;
 
+import com.alsash.contacts.screen.addedit.AddEditComponent;
 import com.alsash.contacts.screen.start.StartComponent;
 
 import javax.inject.Singleton;
@@ -14,4 +15,6 @@ import dagger.Component;
 public interface ContactsAppComponent {
 
     StartComponent.Builder getStartComponentBuilder();
+
+    AddEditComponent.Builder getAddEditComponentBuilder();
 }

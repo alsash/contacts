@@ -4,10 +4,12 @@
     <style name="AppTheme" parent="BaseTheme">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!--<item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowEnterTransition">@android:transition/explode</item>-->
     </style>
 
-    <style name="RippleButton" parent="@style/Widget.AppCompat.Button.Borderless">
-        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
-    </style>
+    <style name="StartTheme" parent="BaseTheme" />
+
+    <style name="AddEditTheme" parent="BaseTheme" />
 
 </resources>

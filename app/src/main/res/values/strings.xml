@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Contacts</string>
+    <string name="delete_message">%s has been removed</string>
+    <string name="delete_undo">UNDO</string>
+    <string name="save_menu">Save</string>
+    <string name="save_error_message">%s already exists in the contact list</string>
+    <string name="hint_contact_name">Contact name</string>
+    <string name="hint_contact_surname">Contact surname</string>
 </resources>

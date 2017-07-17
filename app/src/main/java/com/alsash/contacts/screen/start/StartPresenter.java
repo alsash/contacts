@@ -8,8 +8,10 @@ import com.alsash.contacts.data.Contact;
 import com.alsash.contacts.data.Repository;
 
 import java.lang.ref.WeakReference;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * An Implementation of the {@link com.alsash.contacts.screen.start.StartContract.Presenter}
@@ -20,6 +22,7 @@ public class StartPresenter implements StartContract.Presenter {
 
     private final Repository repository;
     private final SortedList<Contact> contacts;
+    private final Deque<Contact> deletedContacts = new LinkedBlockingDeque<>();
 
     private WeakReference<StartContract.View> viewRef;
 
@@ -37,6 +40,33 @@ public class StartPresenter implements StartContract.Presenter {
     @Override
     public void detach() {
         viewRef = null;
+        repository.deleteContacts(deletedContacts);
+        deletedContacts.clear();
+    }
+
+    @Override
+    public void requestContactAdd() {
+        getView().showContactAdd();
+    }
+
+    public void requestContactEdit(Contact contact) {
+        if (deletedContacts.size() > 0 && deletedContacts.contains(contact)) return;
+        getView().showContactEdit(contact);
+    }
+
+    @Override
+    public void requestContactDelete(int position) {
+        if (position >= contacts.size()) return;
+        Contact contact = contacts.removeItemAt(position);
+        deletedContacts.push(contact);
+        getView().showDeleteMessage(contact);
+    }
+
+    @Override
+    public void rejectContactDelete() {
+        if (deletedContacts.size() == 0) return;
+        Contact contact = deletedContacts.pop();
+        contacts.add(contact);
     }
 
     /**
@@ -66,23 +96,28 @@ public class StartPresenter implements StartContract.Presenter {
         }
     }
 
-    void add() {
-        Contact contact = repository.create(String.valueOf(contacts.size()), null, 0);
-        getView().showContact(contacts.add(contact));
-    }
-
     @NonNull
     private StartContract.View getView() {
         if (viewRef != null) return viewRef.get();
         return EmptyView.INSTANCE;
     }
 
-    private static final class EmptyView implements StartContract.View {
+    private static class EmptyView implements StartContract.View {
 
         static final EmptyView INSTANCE = new EmptyView();
 
         @Override
-        public void showContact(int position) {
+        public void showDeleteMessage(Contact contact) {
+            // Do nothing
+        }
+
+        @Override
+        public void showContactAdd() {
+            // Do nothing
+        }
+
+        @Override
+        public void showContactEdit(Contact contact) {
             // Do nothing
         }
     }

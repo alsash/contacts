@@ -15,12 +15,22 @@
         <activity
             android:name=".screen.start.StartActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan">
+            android:theme="@style/StartTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".screen.addedit.AddEditActivity"
+            android:noHistory="true"
+            android:parentActivityName=".screen.start.StartActivity"
+            android:theme="@style/AddEditTheme"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.alsash.contacts.screen.start.StartActivity" />
         </activity>
     </application>
 

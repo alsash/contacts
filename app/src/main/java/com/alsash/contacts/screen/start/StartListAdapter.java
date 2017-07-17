@@ -4,7 +4,10 @@ import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import com.alsash.contacts.R;
 import com.alsash.contacts.data.Contact;
+import com.andexert.library.RippleView;
+import com.bumptech.glide.Glide;
 
 /**
  * A Simple adapter for the Start List of the Contacts
@@ -12,20 +15,32 @@ import com.alsash.contacts.data.Contact;
 public class StartListAdapter extends RecyclerView.Adapter<StartListContactHolder> {
 
     private final SortedList<Contact> contacts;
+    private StartListInteraction interaction;
 
     public StartListAdapter(SortedList<Contact> contacts) {
         this.contacts = contacts;
         registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
-                notifyItemRangeChanged(positionStart, itemCount); // update positions number
+                int contactsSize = StartListAdapter.this.contacts.size();
+                int changedPosition = positionStart + itemCount;
+                if (changedPosition >= contactsSize) return;
+                int changedCount = contactsSize - changedPosition;
+                notifyItemRangeChanged(changedPosition, changedCount); // update positions number
             }
 
             @Override
             public void onItemRangeRemoved(int positionStart, int itemCount) {
-                notifyItemRangeChanged(positionStart, itemCount); // update positions number
+                int contactsSize = StartListAdapter.this.contacts.size();
+                if (positionStart >= contactsSize - 1) return;
+                int changedCount = contactsSize - positionStart;
+                notifyItemRangeChanged(positionStart, changedCount); // update positions number
             }
         });
+    }
+
+    public void setInteraction(StartListInteraction interaction) {
+        this.interaction = interaction;
     }
 
     @Override
@@ -34,10 +49,22 @@ public class StartListAdapter extends RecyclerView.Adapter<StartListContactHolde
     }
 
     @Override
-    public void onBindViewHolder(StartListContactHolder holder, int position) {
+    public void onBindViewHolder(final StartListContactHolder holder, int position) {
         Contact contact = contacts.get(position);
-        holder.name.setText((contact.person().name() + " " + contact.person().surname()).trim());
+        holder.name.setText(contact.name());
         holder.position.setText(String.valueOf(position + 1));
+        holder.ripple.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
+            @Override
+            public void onComplete(RippleView rippleView) {
+                if (interaction == null) return;
+                interaction.onContactClick(contacts.get(holder.getAdapterPosition()));
+            }
+        });
+        Glide.with(holder.image.getContext())
+                .load(contact.gifRes())
+                .asBitmap()
+                .error(R.mipmap.ic_launcher_round)
+                .into(holder.image);
     }
 
     @Override

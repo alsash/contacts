@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alsash.contacts.R;
+import com.andexert.library.RippleView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +19,8 @@ import butterknife.ButterKnife;
  */
 public class StartListContactHolder extends RecyclerView.ViewHolder {
 
+    @BindView(R.id.contact_ripple)
+    RippleView ripple;
     @BindView(R.id.contact_image)
     ImageView image;
     @BindView(R.id.contact_name)
@@ -25,7 +28,7 @@ public class StartListContactHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.contact_position)
     TextView position;
 
-    StartListContactHolder(View itemView) {
+    private StartListContactHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }

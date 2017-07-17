@@ -1,5 +1,6 @@
 package com.alsash.contacts.screen.start;
 
+import com.alsash.contacts.data.Contact;
 import com.alsash.contacts.screen.BasePresenter;
 import com.alsash.contacts.screen.BaseView;
 
@@ -10,11 +11,21 @@ public interface StartContract {
 
     interface View extends BaseView {
 
-        void showContact(int position);
+        void showContactAdd();
 
+        void showContactEdit(Contact contact);
+
+        void showDeleteMessage(Contact contact);
     }
 
     interface Presenter extends BasePresenter<View> {
 
+        void requestContactAdd();
+
+        void requestContactDelete(int position);
+
+        void rejectContactDelete();
+
+        void requestContactEdit(Contact contact);
     }
 }
