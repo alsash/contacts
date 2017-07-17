@@ -2,12 +2,15 @@ package com.alsash.contacts.data;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.alsash.contacts.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -69,18 +72,39 @@ public class Repository {
         return copy;
     }
 
-    public Contact createContact(String name, String surname, int imageRes) {
-        Contact contact = Contact.builder()
-                .uuid(UUID.randomUUID())
+    public Contact createContact(@Nullable UUID uuid,
+                                 @Nullable String name,
+                                 @Nullable String surname,
+                                 int imageRes) {
+        return Contact.builder()
+                .uuid(uuid == null ? UUID.randomUUID() : uuid)
                 .person(Person.builder()
                         .name(name == null ? "" : name)
                         .surname(surname == null ? "" : surname)
                         .build())
-                .gifRes(imageRes)
+                .gifRes(getExistOrDefaultGif(imageRes))
                 .build();
-        if (CONTACTS.contains(contact)) return null;
-        CONTACTS.add(contact);
-        return contact;
+    }
+
+    /**
+     * Providing proper error handling
+     *
+     * @param contact - new or modified contact
+     * @param isNew   - new or modified state
+     * @return true if contact has been saved, false otherwise
+     */
+    public boolean saveContact(Contact contact, boolean isNew) {
+        if (isNew) {
+            Set<Person> personCheckSet = new HashSet<>();
+            for (Contact c : CONTACTS) personCheckSet.add(c.person());
+            if (personCheckSet.contains(contact.person())) return false;
+        } else {
+            Contact existContact = getContact(contact.uuid());
+            if (existContact == null)
+                return saveContact(contact, true); // trying to save contact in any case
+            CONTACTS.remove(existContact);
+        }
+        return CONTACTS.add(contact);
     }
 
     public void deleteContacts(Iterable<Contact> contacts) {
@@ -103,5 +127,12 @@ public class Repository {
 
     public int[] getAllImages() {
         return Arrays.copyOf(GIFS, GIFS.length);
+    }
+
+    private int getExistOrDefaultGif(int gifRes) {
+        for (int gif : GIFS) {
+            if (gif == gifRes) return gifRes;
+        }
+        return getDefaultImage();
     }
 }

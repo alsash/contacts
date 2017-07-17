@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".screen.start.StartActivity"
+            android:name=".ui.screen.start.StartActivity"
             android:launchMode="singleTop"
             android:theme="@style/StartTheme">
             <intent-filter>
@@ -23,14 +23,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".screen.addedit.AddEditActivity"
-            android:noHistory="true"
-            android:parentActivityName=".screen.start.StartActivity"
+            android:name=".ui.screen.addedit.AddEditActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.screen.start.StartActivity"
             android:theme="@style/AddEditTheme"
             android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.alsash.contacts.screen.start.StartActivity" />
+                android:value=".ui.screen.start.StartActivity" />
         </activity>
     </application>
 

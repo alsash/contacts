@@ -1,7 +1,7 @@
 package com.alsash.contacts.app;
 
-import com.alsash.contacts.screen.addedit.AddEditComponent;
-import com.alsash.contacts.screen.start.StartComponent;
+import com.alsash.contacts.ui.screen.addedit.AddEditComponent;
+import com.alsash.contacts.ui.screen.start.StartComponent;
 
 import javax.inject.Singleton;
 

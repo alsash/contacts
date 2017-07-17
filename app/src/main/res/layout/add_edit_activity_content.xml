@@ -23,7 +23,8 @@
             android:id="@+id/contact_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_contact_name" />
+            android:hint="@string/hint_contact_name"
+            android:inputType="text|textCapCharacters" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -43,7 +44,8 @@
             android:id="@+id/contact_surname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_contact_surname" />
+            android:hint="@string/hint_contact_surname"
+            android:inputType="text|textCapCharacters" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.v7.widget.RecyclerView

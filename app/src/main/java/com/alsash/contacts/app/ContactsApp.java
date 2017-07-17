@@ -2,14 +2,17 @@ package com.alsash.contacts.app;
 
 import android.app.Application;
 
-import com.alsash.contacts.screen.addedit.AddEditComponent;
-import com.alsash.contacts.screen.start.StartComponent;
+import com.alsash.contacts.BuildConfig;
+import com.alsash.contacts.ui.screen.addedit.AddEditComponent;
+import com.alsash.contacts.ui.screen.start.StartComponent;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * An application instance
  */
 public class ContactsApp extends Application {
-
+    @SuppressWarnings("FieldCanBeLocal")
     private ContactsAppComponent appComponent;
     private StartComponent startComponent;
     private AddEditComponent addEditComponent;
@@ -18,6 +21,7 @@ public class ContactsApp extends Application {
     public void onCreate() {
         super.onCreate();
 
+        // Dagger 2 initialization
         appComponent = DaggerContactsAppComponent.builder()
                 .contactsAppModule(new ContactsAppModule(this))
                 .build();
@@ -29,6 +33,12 @@ public class ContactsApp extends Application {
         addEditComponent = appComponent
                 .getAddEditComponentBuilder()
                 .build();
+
+        // EventBus initialization
+        EventBus.builder()
+                .throwSubscriberException(BuildConfig.DEBUG)
+                .installDefaultEventBus();
+
     }
 
     public StartComponent getStartComponent() {
