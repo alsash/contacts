@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/contact_image_item"
     android:layout_width="72dp"
     android:layout_height="72dp"
     android:layout_margin="4dp"
-    app:srcCompat="@mipmap/ic_launcher_round" />
+    app:srcCompat="@mipmap/ic_launcher_round"
+    tools:ignore="ContentDescription" />
