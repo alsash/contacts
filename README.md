@@ -1,6 +1,5 @@
 # Contacts
 Android app 4 test. Version 1.0.1
-
 [Download APK](/../../raw/master/app-debug.apk)
 
 ## License
