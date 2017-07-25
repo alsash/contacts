@@ -20,15 +20,24 @@ public class StartListSortedCallback extends SortedList.Callback<Contact> {
         this.adapter = adapter;
     }
 
+    /**
+     * compare two {@link Contact} by {@link com.alsash.contacts.data.Person}
+     * name and surname properties ignoring case.
+     *
+     * @param thisContact - first contact to compare
+     * @param thatContact - second contact to compare
+     * @return - a negative integer, zero, or a positive integer as the
+     * first contact is less than, equal to, or greater than the second.
+     */
     @Override
     public int compare(Contact thisContact, Contact thatContact) {
         if (thisContact == null && thatContact == null) return 0;
         if (thisContact == null) return -1;
         if (thatContact == null) return 1;
         if (thisContact.equals(thatContact)) return 0;
-        int nameSign = thisContact.person().name().compareTo(thatContact.person().name());
+        int nameSign = thisContact.person().name().compareToIgnoreCase(thatContact.person().name());
         if (nameSign != 0) return nameSign;
-        return thisContact.person().surname().compareTo(thatContact.person().surname());
+        return thisContact.person().surname().compareToIgnoreCase(thatContact.person().surname());
     }
 
     @Override
